@@ -1,23 +1,25 @@
-import path from "node:path";
-import { defineConfig, UserConfig, loadEnv } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import Components from "unplugin-vue-components/vite";
-import AutoImport from "unplugin-auto-import/vite";
-import VueMacros from "unplugin-vue-macros/vite";
-import IconsResolver from "unplugin-icons/resolver";
-import Icons from "unplugin-icons/vite";
-import { FileSystemIconLoader } from "unplugin-icons/loaders";
-import progress from "vite-plugin-progress";
+import path from 'node:path'
+import type { UserConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import progress from 'vite-plugin-progress'
+
 export default ({ mode }: UserConfig) => {
   return defineConfig({
     base: loadEnv(mode, process.cwd()).VITE_PUBLIC_PATH,
     resolve: {
       alias: {
-        "~/": `${path.resolve(__dirname, "src")}/`,
+        '~/': `${path.resolve(__dirname, 'src')}/`,
       },
     },
     server: {
-      host: "0.0.0.0",
+      host: '0.0.0.0',
       open: true,
     },
     plugins: [
@@ -29,30 +31,30 @@ export default ({ mode }: UserConfig) => {
         },
       }),
       Components({
-        dts: "src/components.d.ts",
+        dts: 'src/components.d.ts',
         types: [
           {
-            from: "vue-router",
-            names: ["RouterLink", "RouterView"],
+            from: 'vue-router',
+            names: ['RouterLink', 'RouterView'],
           },
         ],
         resolvers: [
           IconsResolver({
-            customCollections: ["icon"],
+            customCollections: ['icon'],
           }),
         ],
       }),
       Icons({
-        compiler: "vue3",
+        compiler: 'vue3',
         customCollections: {
-          icon: FileSystemIconLoader("./src/assets/icons"),
+          icon: FileSystemIconLoader('./src/assets/icons'),
         },
         autoInstall: true,
       }),
       AutoImport({
-        imports: ["vue", "vue/macros", "vue-router", "@vueuse/core"],
-        dts: "src/auto-imports.d.ts",
-        dirs: ["./src/composables"],
+        imports: ['vue', 'vue/macros', 'vue-router', '@vueuse/core'],
+        dts: 'src/auto-imports.d.ts',
+        dirs: ['./src/composables'],
         vueTemplate: true,
       }),
       progress(),
@@ -63,8 +65,8 @@ export default ({ mode }: UserConfig) => {
       },
     },
     build: {
-			cssCodeSplit: true,
-			chunkSizeWarningLimit: 1000,
-		},
-  });
-};
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 1000,
+    },
+  })
+}
