@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-components.d
-auto-imports.d
+src/components.d.ts
+src/auto-imports.d.ts
